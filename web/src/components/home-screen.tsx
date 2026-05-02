@@ -53,9 +53,6 @@ export function HomeScreen() {
 
         <section className="grid flex-1 gap-10 px-6 py-8 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14">
           <div className="max-w-2xl">
-            <p className="mb-4 inline-flex rounded-full border border-slate-900/10 bg-white/60 px-3 py-1 text-xs uppercase tracking-[0.24em] text-slate-500">
-              Web-first MVP
-            </p>
             <h1 className="display-type max-w-xl text-5xl leading-none text-slate-950 sm:text-6xl">
               Simple video calls that feel calm and effortless.
             </h1>

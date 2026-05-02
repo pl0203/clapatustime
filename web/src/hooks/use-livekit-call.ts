@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ExternalE2EEKeyProvider,
   Room,
   RoomEvent,
   Track,
@@ -95,9 +96,20 @@ export function useLiveKitCall({
     }
 
     let cancelled = false;
+    const keyProvider = new ExternalE2EEKeyProvider();
+    const worker = new Worker(
+      new URL("livekit-client/e2ee-worker", import.meta.url),
+      {
+        type: "module",
+      },
+    );
     const room = new Room({
       adaptiveStream: true,
       dynacast: true,
+      encryption: {
+        keyProvider,
+        worker,
+      },
     });
 
     roomRef.current = room;
@@ -164,11 +176,14 @@ export function useLiveKitCall({
           throw new Error("Could not create a LiveKit token.");
         }
 
-        const { token, url } = (await response.json()) as {
+        const { token, url, encryptionKey } = (await response.json()) as {
           token: string;
           url: string;
+          encryptionKey: string;
         };
 
+        await keyProvider.setKey(encryptionKey);
+        await room.setE2EEEnabled(true);
         await room.connect(url, token);
 
         if (cancelled) {
@@ -208,6 +223,7 @@ export function useLiveKitCall({
       cancelled = true;
       room.disconnect();
       roomRef.current = null;
+      worker.terminate();
     };
   }, [
     attachLocalVideo,

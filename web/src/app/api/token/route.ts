@@ -1,3 +1,4 @@
+import { createHmac } from "crypto";
 import { AccessToken } from "livekit-server-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -5,12 +6,13 @@ export async function POST(request: NextRequest) {
   const livekitUrl = process.env.LIVEKIT_URL;
   const apiKey = process.env.LIVEKIT_API_KEY;
   const apiSecret = process.env.LIVEKIT_API_SECRET;
+  const e2eeSecret = process.env.LIVEKIT_E2EE_SECRET ?? apiSecret;
 
-  if (!livekitUrl || !apiKey || !apiSecret) {
+  if (!livekitUrl || !apiKey || !apiSecret || !e2eeSecret) {
     return withNoStore(
       NextResponse.json(
-      { error: "LiveKit environment variables are not configured." },
-      { status: 500 },
+        { error: "LiveKit environment variables are not configured." },
+        { status: 500 },
       ),
     );
   }
@@ -41,6 +43,7 @@ export async function POST(request: NextRequest) {
     NextResponse.json({
       token: await token.toJwt(),
       url: livekitUrl,
+      encryptionKey: deriveRoomEncryptionKey(roomId, e2eeSecret),
     }),
   );
 }
@@ -62,6 +65,12 @@ function sanitizeRoomId(roomId: string | undefined) {
 function sanitizeDisplayName(displayName: string | undefined) {
   const cleanName = displayName?.trim().slice(0, 48);
   return cleanName || "Guest";
+}
+
+function deriveRoomEncryptionKey(roomId: string, secret: string) {
+  return createHmac("sha256", secret)
+    .update(`room-e2ee:${roomId}`)
+    .digest("base64url");
 }
 
 function withNoStore(response: NextResponse) {
