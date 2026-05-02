@@ -4,6 +4,17 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "ClapatusTime",
   description: "A minimal 1:1 video calling web app for private hangouts.",
+  referrer: "no-referrer",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
 };
 
 export default function RootLayout({

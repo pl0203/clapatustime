@@ -10,29 +10,48 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { useParams } from "next/navigation";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { useLiveKitCall } from "@/hooks/use-livekit-call";
 import { formatRoomLabel } from "@/lib/room-utils";
 
 export function CallRoomScreen() {
   const params = useParams<{ roomId: string }>();
-  const searchParams = useSearchParams();
   const roomId = params.roomId;
   const roomLabel = useMemo(() => formatRoomLabel(roomId), [roomId]);
-  const [audioEnabled, setAudioEnabled] = useState(
-    searchParams.get("audio") !== "false",
-  );
-  const [videoEnabled, setVideoEnabled] = useState(
-    searchParams.get("video") !== "false",
-  );
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [videoEnabled, setVideoEnabled] = useState(true);
+  const [displayName, setDisplayName] = useState("Guest");
+  const [role, setRole] = useState("guest");
+  const [joinConfigReady, setJoinConfigReady] = useState(false);
   const [copied, setCopied] = useState(false);
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
   const remoteAudioRef = useRef<HTMLAudioElement>(null);
 
-  const displayName = searchParams.get("name") || "Guest";
-  const role = searchParams.get("role") || "guest";
+  useEffect(() => {
+    const hash = window.location.hash.startsWith("#")
+      ? window.location.hash.slice(1)
+      : "";
+    const hashParams = new URLSearchParams(hash);
+
+    startTransition(() => {
+      setDisplayName(hashParams.get("name")?.trim() || "Guest");
+      setRole(hashParams.get("role") || "guest");
+      setAudioEnabled(hashParams.get("audio") !== "false");
+      setVideoEnabled(hashParams.get("video") !== "false");
+      setJoinConfigReady(true);
+    });
+
+    if (window.location.hash) {
+      window.history.replaceState(
+        window.history.state,
+        "",
+        `/room/${roomId}`,
+      );
+    }
+  }, [roomId]);
+
   const fallbackRemoteName = role === "guest" ? "Host" : "Guest";
   const call = useLiveKitCall({
     roomId,
@@ -42,6 +61,7 @@ export function CallRoomScreen() {
     localVideoRef,
     remoteVideoRef,
     remoteAudioRef,
+    enabled: joinConfigReady,
   });
   const visibleRemoteName =
     call.remoteName === "Waiting" ? fallbackRemoteName : call.remoteName;

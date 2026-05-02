@@ -19,6 +19,7 @@ type UseLiveKitCallOptions = {
   displayName: string;
   initialAudioEnabled: boolean;
   initialVideoEnabled: boolean;
+  enabled: boolean;
   localVideoRef: RefObject<HTMLVideoElement | null>;
   remoteVideoRef: RefObject<HTMLVideoElement | null>;
   remoteAudioRef: RefObject<HTMLAudioElement | null>;
@@ -29,6 +30,7 @@ export function useLiveKitCall({
   displayName,
   initialAudioEnabled,
   initialVideoEnabled,
+  enabled,
   localVideoRef,
   remoteVideoRef,
   remoteAudioRef,
@@ -85,6 +87,13 @@ export function useLiveKitCall({
   }, []);
 
   useEffect(() => {
+    initialAudioRef.current = initialAudioEnabled;
+    initialVideoRef.current = initialVideoEnabled;
+
+    if (!enabled) {
+      return;
+    }
+
     let cancelled = false;
     const room = new Room({
       adaptiveStream: true,
@@ -204,7 +213,10 @@ export function useLiveKitCall({
     attachLocalVideo,
     attachRemoteTrack,
     displayName,
+    enabled,
     refreshParticipants,
+    initialAudioEnabled,
+    initialVideoEnabled,
     roomId,
   ]);
 

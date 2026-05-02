@@ -7,9 +7,11 @@ export async function POST(request: NextRequest) {
   const apiSecret = process.env.LIVEKIT_API_SECRET;
 
   if (!livekitUrl || !apiKey || !apiSecret) {
-    return NextResponse.json(
+    return withNoStore(
+      NextResponse.json(
       { error: "LiveKit environment variables are not configured." },
       { status: 500 },
+      ),
     );
   }
 
@@ -35,10 +37,12 @@ export async function POST(request: NextRequest) {
     canPublishData: true,
   });
 
-  return NextResponse.json({
-    token: await token.toJwt(),
-    url: livekitUrl,
-  });
+  return withNoStore(
+    NextResponse.json({
+      token: await token.toJwt(),
+      url: livekitUrl,
+    }),
+  );
 }
 
 function sanitizeRoomId(roomId: string | undefined) {
@@ -58,4 +62,14 @@ function sanitizeRoomId(roomId: string | undefined) {
 function sanitizeDisplayName(displayName: string | undefined) {
   const cleanName = displayName?.trim().slice(0, 48);
   return cleanName || "Guest";
+}
+
+function withNoStore(response: NextResponse) {
+  response.headers.set(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate",
+  );
+  response.headers.set("Pragma", "no-cache");
+  response.headers.set("Expires", "0");
+  return response;
 }

@@ -33,7 +33,7 @@ export function PrejoinScreen() {
       target.set("role", role);
     }
 
-    router.push(`/room/${roomId}?${target.toString()}`);
+    router.push(`/room/${roomId}#${target.toString()}`);
   };
 
   return (

@@ -3,8 +3,15 @@ export function createRoomId() {
   const nouns = ["lantern", "harbor", "window", "garden", "signal", "orbit"];
   const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   const noun = nouns[Math.floor(Math.random() * nouns.length)];
+  const randomBytes = new Uint8Array(6);
 
-  return `${adjective}-${noun}`;
+  crypto.getRandomValues(randomBytes);
+
+  const suffix = Array.from(randomBytes, (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+
+  return `${adjective}-${noun}-${suffix}`;
 }
 
 export function normalizeRoomInput(input: string) {
