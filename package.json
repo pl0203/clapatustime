@@ -1,0 +1,14 @@
+{
+  "name": "clapatustime",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix web run build",
+    "dev": "npm --prefix web run dev",
+    "lint": "npm --prefix web run lint",
+    "start": "npm --prefix web run start"
+  },
+  "dependencies": {
+    "next": "16.2.4"
+  }
+}
