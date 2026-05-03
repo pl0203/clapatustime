@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   title: "ClapatusTime",
   description: "A minimal 1:1 video calling web app for private hangouts.",
   referrer: "no-referrer",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
+  },
   robots: {
     index: false,
     follow: false,
