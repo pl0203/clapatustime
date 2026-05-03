@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f3ee;
+  --background: #fff1f6;
   --foreground: #171717;
-  --panel: rgba(255, 255, 255, 0.72);
-  --panel-strong: rgba(255, 255, 255, 0.92);
-  --line: rgba(23, 23, 23, 0.09);
-  --accent: #1e3a8a;
-  --accent-soft: #dbe7ff;
+  --panel: rgba(255, 246, 249, 0.74);
+  --panel-strong: rgba(255, 250, 252, 0.94);
+  --line: rgba(97, 36, 64, 0.12);
+  --accent: #9f315f;
+  --accent-soft: #ffe0eb;
   --success: #1d6b45;
-  --shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+  --shadow: 0 24px 80px rgba(92, 28, 58, 0.13);
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia,
     serif;
   --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Helvetica, Arial,
@@ -28,8 +28,9 @@
 
 html {
   background:
-    radial-gradient(circle at top, rgba(204, 215, 255, 0.65), transparent 32%),
-    linear-gradient(180deg, #f8f6f0 0%, #efebe3 100%);
+    radial-gradient(circle at top left, rgba(255, 202, 219, 0.7), transparent 34%),
+    radial-gradient(circle at 78% 8%, rgba(255, 230, 185, 0.44), transparent 28%),
+    linear-gradient(180deg, #fff4f8 0%, #ffeef4 47%, #f8e8ee 100%);
 }
 
 body {
@@ -78,9 +79,51 @@ input {
 
 .video-surface {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 40%),
-    radial-gradient(circle at top, rgba(148, 184, 255, 0.25), transparent 35%),
-    linear-gradient(135deg, #20242f 0%, #111827 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 44%),
+    radial-gradient(circle at top, rgba(255, 176, 202, 0.34), transparent 35%),
+    linear-gradient(135deg, #7a2448 0%, #361629 100%);
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgba(159, 49, 95, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), transparent),
+    #ffe0eb;
+  box-shadow: 0 12px 32px rgba(159, 49, 95, 0.15);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.brand-label {
+  margin: 0;
+  color: #5c1c3a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.brand-caption {
+  margin: 3px 0 0;
+  color: rgba(92, 28, 58, 0.62);
+  font-size: 14px;
+}
+
+.brand-logo-compact {
+  width: 34px;
+  height: 34px;
+  font-size: 18px;
 }
 
 .call-page {
@@ -122,7 +165,7 @@ input {
 .call-topbar {
   position: absolute;
   z-index: 5;
-  top: 16px;
+  top: max(16px, env(safe-area-inset-top));
   left: 16px;
   right: 16px;
   display: flex;
@@ -148,8 +191,11 @@ input {
 }
 
 .call-room-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   min-width: 148px;
-  padding: 12px 14px;
+  padding: 10px 12px;
 }
 
 .call-room-chip h1 {
@@ -183,6 +229,58 @@ input {
   height: 7px;
   border-radius: 999px;
   background: #34a853;
+}
+
+.call-status-dot-connected {
+  background: #34a853;
+}
+
+.call-status-dot-pending {
+  background: #fbbc04;
+}
+
+.call-status-dot-error {
+  background: #f28b82;
+}
+
+.call-status-dot-idle {
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.call-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.call-loading > div {
+  margin-top: 12px;
+}
+
+.call-loading svg,
+.call-notice-loading > svg {
+  animation: call-spin 850ms linear infinite;
+}
+
+.call-loading p,
+.call-loading span {
+  margin: 0;
+}
+
+.call-loading p {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.call-loading span {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 14px;
 }
 
 .call-waiting {
@@ -249,6 +347,7 @@ input {
   margin-top: 4px;
   color: #fecaca;
   font-size: 13px;
+  line-height: 1.35;
 }
 
 .call-self-tile {
@@ -269,6 +368,11 @@ input {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 180ms ease;
+}
+
+.call-self-video-mirrored {
+  transform: scaleX(-1);
 }
 
 .call-camera-off {
@@ -308,7 +412,7 @@ input {
   position: absolute;
   z-index: 8;
   left: 50%;
-  bottom: 18px;
+  bottom: max(18px, env(safe-area-inset-bottom));
   display: flex;
   max-width: calc(100vw - 24px);
   transform: translateX(-50%);
@@ -320,6 +424,71 @@ input {
   padding: 10px;
   box-shadow: 0 24px 72px rgba(0, 0, 0, 0.38);
   backdrop-filter: blur(16px);
+}
+
+.call-notice {
+  position: absolute;
+  z-index: 7;
+  top: calc(max(16px, env(safe-area-inset-top)) + 72px);
+  left: 50%;
+  display: grid;
+  width: min(520px, calc(100vw - 32px));
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  transform: translateX(-50%);
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(24, 25, 28, 0.86);
+  padding: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.call-notice > svg {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.call-notice strong,
+.call-notice span {
+  display: block;
+  margin: 0;
+}
+
+.call-notice strong {
+  font-size: 13px;
+}
+
+.call-notice span {
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.call-notice button {
+  display: inline-flex;
+  min-width: 86px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0 11px;
+  color: #171717;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.call-notice-warning {
+  border-color: rgba(251, 188, 4, 0.36);
+}
+
+.call-notice-error {
+  border-color: rgba(242, 139, 130, 0.36);
 }
 
 .call-control {
@@ -362,6 +531,14 @@ input {
   background: #4b4f52;
 }
 
+.call-control-disabled,
+.call-control-disabled:hover {
+  background: rgba(60, 64, 67, 0.46);
+  color: rgba(255, 255, 255, 0.42);
+  cursor: not-allowed;
+  transform: none;
+}
+
 .call-control-danger,
 .call-control-leave {
   background: #d93025;
@@ -372,15 +549,41 @@ input {
   background: #b3261e;
 }
 
+@keyframes call-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 720px) {
   .call-topbar {
-    top: 10px;
+    top: max(10px, env(safe-area-inset-top));
     left: 10px;
     right: 10px;
+    align-items: flex-start;
   }
 
   .call-room-chip {
     min-width: 0;
+    max-width: min(58vw, 260px);
+    padding: 10px 11px;
+  }
+
+  .call-room-chip h1 {
+    overflow: hidden;
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .call-eyebrow {
+    font-size: 10px;
+  }
+
+  .call-status-chip {
+    gap: 6px;
+    padding: 9px 10px;
+    font-size: 12px;
   }
 
   .call-status-chip span:first-of-type {
@@ -389,20 +592,35 @@ input {
 
   .call-nameplate {
     left: 10px;
-    bottom: 92px;
+    bottom: calc(max(10px, env(safe-area-inset-bottom)) + 72px);
+    max-width: calc(100vw - 170px);
+    padding: 10px 11px;
+  }
+
+  .call-nameplate strong {
+    overflow: hidden;
+    font-size: 17px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .call-self-tile {
     right: 10px;
-    bottom: 92px;
-    width: clamp(136px, 38vw, 180px);
+    bottom: calc(max(10px, env(safe-area-inset-bottom)) + 72px);
+    width: clamp(126px, 36vw, 172px);
   }
 
   .call-controls {
-    bottom: 10px;
+    bottom: max(10px, env(safe-area-inset-bottom));
     width: calc(100vw - 20px);
     justify-content: space-between;
     overflow-x: auto;
+    padding: 8px;
+    scrollbar-width: none;
+  }
+
+  .call-controls::-webkit-scrollbar {
+    display: none;
   }
 
   .call-control {
@@ -413,5 +631,56 @@ input {
 
   .call-control span {
     display: none;
+  }
+
+  .call-notice {
+    top: calc(max(10px, env(safe-area-inset-top)) + 62px);
+    width: calc(100vw - 20px);
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 10px;
+  }
+
+  .call-notice span {
+    font-size: 12px;
+  }
+
+  .call-notice button {
+    min-width: 42px;
+    width: 42px;
+    padding: 0;
+  }
+
+  .call-notice button span {
+    display: none;
+  }
+}
+
+@media (max-width: 430px) {
+  .call-nameplate {
+    max-width: calc(100vw - 150px);
+  }
+
+  .call-self-tile {
+    width: 132px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .call-room-chip {
+    padding: 8px 10px;
+  }
+
+  .call-nameplate {
+    bottom: 80px;
+  }
+
+  .call-self-tile {
+    bottom: 80px;
+    width: 140px;
+  }
+
+  .call-notice {
+    top: 10px;
+    width: min(440px, calc(100vw - 260px));
   }
 }

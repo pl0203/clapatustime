@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
+import { BrandMark } from "@/components/brand-mark";
 import { createRoomId, normalizeRoomInput } from "@/lib/room-utils";
 
 export function HomeScreen() {
@@ -35,17 +36,10 @@ export function HomeScreen() {
     <main className="min-h-screen px-5 py-6 text-slate-900 sm:px-8 lg:px-10">
       <div className="mx-auto flex min-h-[calc(100vh-3rem)] w-full max-w-7xl flex-col rounded-[2rem] border fine-line panel-strong">
         <header className="flex items-center justify-between border-b fine-line px-6 py-5 sm:px-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500">
-              ClapatusTime
-            </p>
-            <p className="mt-1 text-sm text-slate-500">
-              Private video calls for two.
-            </p>
-          </div>
+          <BrandMark caption="Private video calls for two." />
           <Link
             href="/join"
-            className="rounded-full border fine-line bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-white"
+            className="rounded-full border fine-line bg-white/72 px-4 py-2 text-sm font-medium text-rose-950 transition hover:bg-white"
           >
             Join manually
           </Link>
@@ -56,7 +50,7 @@ export function HomeScreen() {
             <h1 className="display-type max-w-xl text-5xl leading-none text-slate-950 sm:text-6xl">
               Simple video calls that feel calm and effortless.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+            <p className="mt-6 max-w-xl text-lg leading-8 text-rose-950/68">
               Start a private room, share the link, and join from desktop or
               mobile without creating an account.
             </p>
@@ -65,13 +59,13 @@ export function HomeScreen() {
               <button
                 type="button"
                 onClick={startCall}
-                className="rounded-full bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+                className="rounded-full bg-rose-950 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-rose-900"
               >
                 Start a call
               </button>
               <Link
                 href="/join"
-                className="rounded-full border fine-line bg-white/70 px-6 py-3.5 text-center text-sm font-semibold text-slate-800 transition hover:bg-white"
+                className="rounded-full border fine-line bg-white/72 px-6 py-3.5 text-center text-sm font-semibold text-rose-950 transition hover:bg-white"
               >
                 Join with a code
               </Link>
@@ -80,7 +74,7 @@ export function HomeScreen() {
             <form onSubmit={handleJoin} className="mt-10 max-w-xl">
               <label
                 htmlFor="quick-join"
-                className="mb-3 block text-sm font-medium text-slate-700"
+                className="mb-3 block text-sm font-medium text-rose-950/78"
               >
                 Quick join with a room link or code
               </label>
@@ -90,11 +84,11 @@ export function HomeScreen() {
                   value={joinInput}
                   onChange={(event) => setJoinInput(event.target.value)}
                   placeholder="clapatustime.app/room/late-lantern or late-lantern"
-                  className="min-w-0 flex-1 rounded-2xl border fine-line bg-white/80 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-slate-900/25"
+                  className="min-w-0 flex-1 rounded-2xl border fine-line bg-white/82 px-4 py-3 text-sm text-rose-950 outline-none transition placeholder:text-rose-950/34 focus:border-rose-900/25"
                 />
                 <button
                   type="submit"
-                  className="rounded-2xl border border-slate-900 bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  className="rounded-2xl border border-rose-950 bg-rose-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-rose-900"
                 >
                   Continue
                 </button>
@@ -102,7 +96,7 @@ export function HomeScreen() {
               {error ? (
                 <p className="mt-3 text-sm text-rose-600">{error}</p>
               ) : (
-                <p className="mt-3 text-sm text-slate-500">
+                <p className="mt-3 text-sm text-rose-950/58">
                   This prototype generates private room links and keeps the flow
                   account-free.
                 </p>
@@ -119,7 +113,7 @@ export function HomeScreen() {
                   </p>
                   <p className="mt-2 text-2xl font-semibold">late-lantern</p>
                 </div>
-                <span className="rounded-full bg-emerald-400/18 px-3 py-1 text-xs font-medium text-emerald-200">
+                <span className="rounded-full bg-pink-200/18 px-3 py-1 text-xs font-medium text-pink-100">
                   End-to-end feel
                 </span>
               </div>
@@ -165,7 +159,7 @@ export function HomeScreen() {
               ].map((item) => (
                 <div
                   key={item}
-                  className="rounded-[1.2rem] border fine-line bg-white/78 px-4 py-4 text-sm text-slate-600"
+                  className="rounded-[1.2rem] border fine-line bg-white/78 px-4 py-4 text-sm text-rose-950/62"
                 >
                   {item}
                 </div>

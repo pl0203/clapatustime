@@ -2,6 +2,11 @@ import { createHmac } from "crypto";
 import { AccessToken } from "livekit-server-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
+type TokenRequestBody = {
+  roomId?: string;
+  displayName?: string;
+};
+
 export async function POST(request: NextRequest) {
   const livekitUrl = process.env.LIVEKIT_URL;
   const apiKey = process.env.LIVEKIT_API_KEY;
@@ -17,11 +22,32 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const body = (await request.json()) as {
-    roomId?: string;
-    displayName?: string;
-  };
-  const roomId = sanitizeRoomId(body.roomId);
+  let body: TokenRequestBody;
+
+  try {
+    body = (await request.json()) as TokenRequestBody;
+  } catch {
+    return withNoStore(
+      NextResponse.json({ error: "Invalid token request." }, { status: 400 }),
+    );
+  }
+
+  let roomId: string;
+
+  try {
+    roomId = sanitizeRoomId(body.roomId);
+  } catch (error) {
+    return withNoStore(
+      NextResponse.json(
+        {
+          error:
+            error instanceof Error ? error.message : "Room id is required.",
+        },
+        { status: 400 },
+      ),
+    );
+  }
+
   const displayName = sanitizeDisplayName(body.displayName);
   const identity = `${displayName.toLowerCase().replace(/[^a-z0-9]/g, "-")}-${crypto.randomUUID()}`;
 

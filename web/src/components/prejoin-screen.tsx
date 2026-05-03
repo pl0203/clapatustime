@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
+import { BrandMark } from "@/components/brand-mark";
 import { useCameraPreview } from "@/hooks/use-camera-preview";
 import { formatRoomLabel } from "@/lib/room-utils";
 
@@ -40,15 +41,10 @@ export function PrejoinScreen() {
     <main className="min-h-screen px-5 py-6 sm:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-3rem)] w-full max-w-6xl flex-col rounded-[2rem] border fine-line panel-strong">
         <header className="flex items-center justify-between border-b fine-line px-6 py-5 sm:px-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-slate-500">
-              Pre-join setup
-            </p>
-            <p className="mt-1 text-sm text-slate-500">Room {roomLabel}</p>
-          </div>
+          <BrandMark label="Pre-join setup" caption={`Room ${roomLabel}`} />
           <Link
             href="/"
-            className="rounded-full border fine-line bg-white/70 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-white"
+            className="rounded-full border fine-line bg-white/72 px-4 py-2 text-sm font-medium text-rose-950 transition hover:bg-white"
           >
             Exit
           </Link>
@@ -121,25 +117,25 @@ export function PrejoinScreen() {
             </div>
           </div>
 
-          <aside className="rounded-[2rem] border fine-line bg-white/82 p-6 sm:p-7">
-            <h1 className="display-type text-4xl text-slate-950">
+          <aside className="rounded-[2rem] border fine-line bg-white/84 p-6 sm:p-7">
+            <h1 className="display-type text-4xl text-rose-950">
               Check a few things before joining
             </h1>
-            <p className="mt-3 text-base leading-7 text-slate-600">
+            <p className="mt-3 text-base leading-7 text-rose-950/64">
               For the first version we keep setup lightweight: choose your name,
               confirm your devices, and enter the room.
             </p>
 
             <div className="mt-8 space-y-5">
               <label className="block">
-                <span className="mb-2 block text-sm font-medium text-slate-700">
+                <span className="mb-2 block text-sm font-medium text-rose-950/78">
                   Display name
                 </span>
                 <input
                   value={displayName}
                   onChange={(event) => setDisplayName(event.target.value)}
                   placeholder="Enter your name"
-                  className="w-full rounded-[1.2rem] border fine-line bg-white px-4 py-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-900/25"
+                  className="w-full rounded-[1.2rem] border fine-line bg-white px-4 py-3 text-sm text-rose-950 outline-none transition placeholder:text-rose-950/34 focus:border-rose-900/25"
                 />
               </label>
 
@@ -147,30 +143,30 @@ export function PrejoinScreen() {
                 <button
                   type="button"
                   onClick={() => setAudioEnabled((value) => !value)}
-                  className="rounded-[1.2rem] border fine-line bg-slate-50 px-4 py-4 text-left transition hover:bg-white"
+                  className="rounded-[1.2rem] border fine-line bg-rose-50/70 px-4 py-4 text-left transition hover:bg-white"
                 >
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                  <p className="text-xs uppercase tracking-[0.24em] text-rose-950/46">
                     Microphone
                   </p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900">
+                  <p className="mt-2 text-lg font-semibold text-rose-950">
                     {audioEnabled ? "On" : "Muted"}
                   </p>
                 </button>
                 <button
                   type="button"
                   onClick={() => setVideoEnabled((value) => !value)}
-                  className="rounded-[1.2rem] border fine-line bg-slate-50 px-4 py-4 text-left transition hover:bg-white"
+                  className="rounded-[1.2rem] border fine-line bg-rose-50/70 px-4 py-4 text-left transition hover:bg-white"
                 >
-                  <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                  <p className="text-xs uppercase tracking-[0.24em] text-rose-950/46">
                     Camera
                   </p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900">
+                  <p className="mt-2 text-lg font-semibold text-rose-950">
                     {videoEnabled ? "On" : "Off"}
                   </p>
                 </button>
               </div>
 
-              <div className="rounded-[1.2rem] border fine-line bg-slate-50 px-4 py-4 text-sm leading-6 text-slate-600">
+              <div className="rounded-[1.2rem] border fine-line bg-pink-50/70 px-4 py-4 text-sm leading-6 text-rose-950/62">
                 Browser camera preview is active here. Device selection will plug
                 into this same screen when we wire up LiveKit.
               </div>
@@ -180,13 +176,13 @@ export function PrejoinScreen() {
               <button
                 type="button"
                 onClick={joinCall}
-                className="rounded-full bg-slate-950 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+                className="rounded-full bg-rose-950 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-rose-900"
               >
                 Join room
               </button>
               <Link
                 href="/"
-                className="rounded-full border fine-line bg-white px-6 py-3.5 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="rounded-full border fine-line bg-white px-6 py-3.5 text-center text-sm font-semibold text-rose-950 transition hover:bg-rose-50"
               >
                 Cancel
               </Link>

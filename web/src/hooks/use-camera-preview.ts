@@ -36,7 +36,7 @@ export function useCameraPreview(
         stream = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: {
-            facingMode: "user",
+            facingMode: prefersBackCamera() ? "environment" : "user",
           },
         });
 
@@ -74,4 +74,9 @@ export function useCameraPreview(
   }
 
   return status;
+}
+
+function prefersBackCamera() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return /android.*mobile|iphone|ipod/.test(userAgent);
 }
